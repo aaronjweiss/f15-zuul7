@@ -39,19 +39,14 @@ public class Game
         inTheMatrix, beltway, postOffice, cityHall, policeStation, jailCell, park, airport,
         bank, bankRestroom, bankVault, restaurant, petStore;
         
-<<<<<<< HEAD
-        Item key, newspaper, someItem;
-        
-        key = new Item("A key. Wonder what it unlocks?",1);
-        newspaper = new Item("A newspaper.",1);
-        someItem = new Item("asdf",1);
-=======
-        Item key, newspaper, wallet;
+
+        Item key, newspaper, wallet, someItem;
         
         key = new Item("A key. Wonder what it unlocks?",1);
         newspaper = new Item("A newspaper.",1);
         wallet = new Item("A wallet.",2);
->>>>>>> 27b1de03624ca2515887f0bae68569a7098c191a
+        someItem = new Item("asdf",1);
+
         
         // create the rooms
         cityCenter = new Room("in the city center, at the intersecetion of Main and Second");
