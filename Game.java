@@ -38,9 +38,14 @@ public class Game
         bar, groceryStore, groceryCheckoutLine, groceryStockRoom, carDealer, collegeCampus, collegeLibrary, collegeClassroom,
         inTheMatrix, beltway, postOffice, cityHall, policeStation, jailCell, park, airport,
         bank, bankRestroom, bankVault, restaurant, petStore;
-        ;
+        
+        Item key;
+        
+        key = new Item("A key. Wonder what it unlocks?",1);
+        
         // create the rooms
         cityCenter = new Room("in the city center, at the intersecetion of Main and Second");
+        cityCenter.addItem(key);
         northSecond = new Room("on North Second Avenue");
         southSecond = new Room("on South Second Avenue");
         eastMain = new Room ("on East Main Street");
