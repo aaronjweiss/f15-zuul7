@@ -51,7 +51,7 @@ public class Game
 
         
         // create the rooms
-        cityCenter = new Room("in the city center, at the intersecetion of Main and Second");
+        cityCenter = new Room("in the city center, at the intersection of Main and Second");
         cityCenter.addItem("key",key);
         cityCenter.addItem("newspaper",newspaper);
         northSecond = new Room("on North Second Avenue");
@@ -161,7 +161,7 @@ public class Game
         //airport exits
         airport.setExit("beltway", beltway);
         //bank exits
-        bank.setExit("city center", cityCenter);
+        bank.setExit("citycenter", cityCenter);
         bank.setExit("west", northSecond);
         bank.setExit("south", eastMain);
         bank.setExit("restroom", bankRestroom);
@@ -186,13 +186,12 @@ public class Game
 
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the game is over.
-
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
         }
-        System.out.println("Thank you for playing.  Good bye.");
+        System.out.println("Thank you for playing. Good bye.");
     }
 
     /**
@@ -201,11 +200,12 @@ public class Game
     private void printWelcome()
     {
         System.out.println();
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
+        System.out.println("Welcome to The World of Zuul-7!");
+        System.out.println("The World of Zuul-7 is a new, mildly-interesting adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        System.out.println(currentRoom.getLongDescription());
+        //System.out.println(currentRoom.getLongDescription());
+        printInfo();
     }
 
     /**
@@ -221,7 +221,7 @@ public class Game
 
         switch (commandWord) {
             case UNKNOWN:
-                System.out.println("I don't know what you mean...");
+                System.out.println("Try another command.");
                 break;
 
             case HELP:
@@ -232,8 +232,16 @@ public class Game
                 goRoom(command);
                 break;
                 
+            case BACK:
+                goBack();
+                break;
+                
             case TAKE:
                 takeItem(command);
+                break;
+                
+            case DROP:
+                dropItem(command);
                 break;
 
             case QUIT:
@@ -252,11 +260,39 @@ public class Game
      */
     private void printHelp() 
     {
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
+        System.out.println("Welcome to Zuul-7! The best dimension of Zuul around.");
         System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();
+    }
+    
+    /**
+     * Print where the player is and what items he has.
+     */
+    private void printInfo() 
+    {
+        System.out.println();
+        System.out.println(currentRoom.getLongDescription());
+        System.out.println(player.getItemList());
+    }
+    
+    /** 
+     * Try to go back a room if possible.
+     */
+    private void goBack() 
+    {
+        // Try to leave current room.
+        Room nextRoom = player.getPreviousRoom();
+
+        if (nextRoom == null || currentRoom.getShortDescription().equals("in a jail cell")) { //semi-crude way of checking in jail, needs refactoring
+            System.out.println("There is nothing to go back to.");
+        }
+        else {
+            player.setPreviousRoom(currentRoom);
+            currentRoom = nextRoom;
+            //System.out.println(currentRoom.getLongDescription());
+            printInfo();
+        }
     }
 
     /** 
@@ -273,15 +309,23 @@ public class Game
 
         String direction = command.getSecondWord();
 
+        //Making the back command more robust, can use either 'back' or 'go back'
+        if(direction.equalsIgnoreCase("back")) {
+            goBack();
+            return;
+        }
+        
         // Try to leave current room.
         Room nextRoom = currentRoom.getExit(direction);
 
         if (nextRoom == null) {
-            System.out.println("There is no door!");
+            System.out.println("That is not a direction you can go.");
         }
         else {
+            player.setPreviousRoom(currentRoom);
             currentRoom = nextRoom;
-            System.out.println(currentRoom.getLongDescription());
+            //System.out.println(currentRoom.getLongDescription());
+            printInfo();
         }
     }
     
@@ -304,13 +348,41 @@ public class Game
             //add to inventory 
             player.addItem(itemToTake, currentRoom.removeItem(itemToTake));
             
-            System.out.println("You remove the " + itemToTake + " and place it in your inventory.");
-            System.out.println("Current inventory: " + player.getItemList()); //temp print
-            System.out.println(currentRoom.getLongDescription());
+            System.out.println("You take the " + itemToTake + " and place it in your inventory.");
+            //System.out.println(currentRoom.getLongDescription());
+            printInfo();
         }
         else {
-            System.out.println("There is no item!");
+            System.out.println("There is no such item to take.");
         }
+    }
+    
+    /** 
+     * Try to drop an item into the room if the player has it.
+     * Otherwise print an error.
+     */
+    private void dropItem(Command command) 
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know what item to take...
+            System.out.println("Drop what?");
+            return;
+        }
+
+        String itemToDrop = command.getSecondWord();
+
+        if(player.hasItem(itemToDrop)) {      
+            //add to room
+            currentRoom.addItem(itemToDrop, player.removeItem(itemToDrop));
+            System.out.println("You drop the " + itemToDrop + ".");  
+            
+            //System.out.println(currentRoom.getLongDescription());
+            printInfo();
+        }
+        else {
+            System.out.println("There is no such item to drop.");
+        }
+        
     }
 
     /** 

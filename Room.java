@@ -117,6 +117,7 @@ public class Room
      * Removes an item from the room.
      * 
      * @param description the shorthand description of the item
+     * @return the item being removed.
      */
     public Item removeItem(String description) 
     {
@@ -132,7 +133,7 @@ public class Room
      */
     public String getItemList() 
     {
-        String returnString = "Items:";
+        String returnString = "Nearby items:";
         Set<String> keys = items.keySet();
         for(String item : keys) {
             returnString += " " + item;

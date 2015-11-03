@@ -22,9 +22,29 @@ public class Player
         // initialise instance variables
         inventory = new HashMap<String, Item>();
     }
+    
+    /**
+     * Sets the previous room the player was in.
+     * 
+     * @param room the Room the player was last in.
+     */
+    public void setPreviousRoom(Room previousRoom) 
+    {
+        this.previousRoom = previousRoom;
+    }
+    
+    /**
+     * Gets the previous room the player was in.
+     * 
+     * @return the room the player was last in.
+     */
+    public Room getPreviousRoom() 
+    {
+        return previousRoom;
+    }
 
     /**
-     * Adds an item into the room.
+     * Adds an item into the players inventory.
      * 
      * @param description the shorthand description of the item
      * @param item the item being added.
@@ -35,10 +55,10 @@ public class Player
     }
     
     /**
-     * Adds an item into the room.
+     * Returns true if player has the item in question.
      * 
      * @param description the shorthand description of the item
-     * @return Non-null value if the item exists
+     * @return boolean whether the palyer has the item.
      */
     public boolean hasItem(String description) 
     {
@@ -46,9 +66,10 @@ public class Player
     }
     
     /**
-     * Removes an item from the room.
+     * Removes an item from the players inventory and returns it if exists.
      * 
      * @param description the shorthand description of the item
+     * @return item the item being removed.
      */
     public Item removeItem(String description) 
     {
@@ -58,13 +79,13 @@ public class Player
     }
     
     /**
-     * Prints the items within the room.
+     * Prints the items within the inventory.
      * 
-     * @return String of items in the room
+     * @return String of items in the inventory
      */
     public String getItemList() 
     {
-        String returnString = "Items:";
+        String returnString = "Inventory:";
         Set<String> keys = inventory.keySet();
         for(String item : keys) {
             returnString += " " + item;
