@@ -39,13 +39,15 @@ public class Game
         inTheMatrix, beltway, postOffice, cityHall, policeStation, jailCell, park, airport,
         bank, bankRestroom, bankVault, restaurant, petStore;
         
-        Item key;
+        Item key, newspaper;
         
         key = new Item("A key. Wonder what it unlocks?",1);
+        newspaper = new Item("A newspaper.",1);
         
         // create the rooms
         cityCenter = new Room("in the city center, at the intersecetion of Main and Second");
-        cityCenter.addItem(key);
+        cityCenter.addItem("key",key);
+        cityCenter.addItem("newspaper",newspaper);
         northSecond = new Room("on North Second Avenue");
         southSecond = new Room("on South Second Avenue");
         eastMain = new Room ("on East Main Street");
@@ -223,6 +225,10 @@ public class Game
             case GO:
                 goRoom(command);
                 break;
+                
+            case TAKE:
+                takeItem(command);
+                break;
 
             case QUIT:
                 wantToQuit = quit(command);
@@ -270,6 +276,36 @@ public class Game
         else {
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription());
+        }
+    }
+    
+    /** 
+     * Try to take an item. If there is an item, add item to players inventory. 
+     * Otherwise print an error.
+     */
+    private void takeItem(Command command) 
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know what item to take...
+            System.out.println("Take what?");
+            return;
+        }
+
+        String itemToTake = command.getSecondWord();
+
+        // Try to leave current room.
+        
+
+        if(currentRoom.hasItem(itemToTake)) {
+            currentRoom.removeItem(itemToTake);
+            //add to inventory 
+            
+            
+            System.out.println("You remove the " + itemToTake + " and place it in your inventory.");
+            System.out.println(currentRoom.getLongDescription());
+        }
+        else {
+            System.out.println("There is no item!");
         }
     }
 

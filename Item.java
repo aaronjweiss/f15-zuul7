@@ -10,7 +10,6 @@ public class Item
     // instance variables - replace the example below with your own
     private int weight;
     private String description;
-    //private name = new HashMap<String, Item>();
 
     /**
      * Constructor for objects of class Item

@@ -1,7 +1,6 @@
 import java.util.Set;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.ArrayList;
 
 /**
  * Class Room - a room in an adventure game.
@@ -21,7 +20,7 @@ public class Room
 {
     private String description;
     private HashMap<String, Room> exits;        // stores exits of this room.
-    private ArrayList<Item> roomItems;
+    private HashMap<String, Item> items;
 
     /**
      * Create a room described "description". Initially, it has
@@ -33,7 +32,7 @@ public class Room
     {
         this.description = description;
         exits = new HashMap<String, Room>();
-        roomItems = new ArrayList<Item>();
+        items = new HashMap<String, Item>();
     }
 
     /**
@@ -95,25 +94,48 @@ public class Room
     /**
      * Adds an item into the room.
      * 
-     * @param item The item being added.
+     * @param description the shorthand description of the item
+     * @param item the item being added.
      */
-    public void addItem(Item item) 
+    public void addItem(String description, Item item) 
     {
-        roomItems.add(item);
+        items.put(description, item);
+    }
+    
+    /**
+     * Adds an item into the room.
+     * 
+     * @param description the shorthand description of the item
+     * @return Non-null value if the item exists
+     */
+    public boolean hasItem(String description) 
+    {
+        return items.containsKey(description);
+    }
+    
+    /**
+     * Removes an item from the room.
+     * 
+     * @param description the shorthand description of the item
+     */
+    public void removeItem(String description) 
+    {
+        items.remove(description);
     }
     
     /**
      * Prints the items within the room.
      * 
-     * @param item The item being added.
+     * @return String of items in the room
      */
     public String getItemList() 
     {
-        String printString = "Items:";
-        for(Item list : roomItems)
-            printString += " " + list.getClass().getName();
-            
-        return printString;
+        String returnString = "Items:";
+        Set<String> keys = items.keySet();
+        for(String item : keys) {
+            returnString += " " + item;
+        }
+        return returnString;
     }
 }
 
