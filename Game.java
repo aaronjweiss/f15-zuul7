@@ -19,6 +19,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
+    private Player player;
 
     /**
      * Create the game and initialise its internal map.
@@ -27,6 +28,7 @@ public class Game
     {
         createRooms();
         parser = new Parser();
+        player = new Player();
     }
 
     /**
@@ -297,15 +299,13 @@ public class Game
 
         String itemToTake = command.getSecondWord();
 
-        // Try to leave current room.
-        
-
         if(currentRoom.hasItem(itemToTake)) {
-            currentRoom.removeItem(itemToTake);
-            //add to inventory 
             
+            //add to inventory 
+            player.addItem(itemToTake, currentRoom.removeItem(itemToTake));
             
             System.out.println("You remove the " + itemToTake + " and place it in your inventory.");
+            System.out.println("Current inventory: " + player.getItemList()); //temp print
             System.out.println(currentRoom.getLongDescription());
         }
         else {

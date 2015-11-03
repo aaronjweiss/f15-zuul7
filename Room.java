@@ -118,9 +118,11 @@ public class Room
      * 
      * @param description the shorthand description of the item
      */
-    public void removeItem(String description) 
+    public Item removeItem(String description) 
     {
+        Item temp = items.get(description);
         items.remove(description);
+        return temp;
     }
     
     /**

@@ -1,9 +1,9 @@
 
 /**
- * Write a description of class Item here.
+ * Item class handles ingame items.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Aaron Weiss
+ * @version 1.0.0
  */
 public class Item
 {
