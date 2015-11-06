@@ -21,7 +21,7 @@ public class Game
     private Parser parser;
     private Room currentRoom;
     private Player player;
-
+    private Timer timer;
     /**
      * Create the game and initialise its internal map.
      */
@@ -30,6 +30,7 @@ public class Game
         createRooms();
         parser = new Parser();
         player = new Player();
+        timer = new Timer(1);
     }
 
     /**
@@ -87,36 +88,36 @@ public class Game
         bus = new Bus("on the bus", roomList);
         
         //add rooms to roomList
-        roomList.add(cityCenter);	
-		roomList.add(northSecond);
-		roomList.add(southSecond);
-		roomList.add(eastMain);
-		roomList.add(westMain);
-		roomList.add(apartmentBuilding);
-		roomList.add(playerApartment);
-		roomList.add(friendApartment);
-		roomList.add(bar);
-		roomList.add(groceryStore);
-		roomList.add(groceryCheckoutLine);
-		roomList.add(groceryStockRoom);
-		roomList.add(carDealer);
-		roomList.add(collegeCampus);
-		roomList.add(collegeLibrary);
-		roomList.add(collegeClassroom);
-		roomList.add(inTheMatrix);
-		roomList.add(beltway);
-		roomList.add(postOffice);
-		roomList.add(cityHall);
-		roomList.add(policeStation);
-		roomList.add(jailCell);
-		roomList.add(park);
-		roomList.add(airport);
-		roomList.add(bank);
-		roomList.add(bankRestroom);
-		roomList.add(bankVault);
-		roomList.add(restaurant);
-		roomList.add(petStore);
-		roomList.add(bus);
+        roomList.add(cityCenter);   
+        roomList.add(northSecond);
+        roomList.add(southSecond);
+        roomList.add(eastMain);
+        roomList.add(westMain);
+        roomList.add(apartmentBuilding);
+        roomList.add(playerApartment);
+        roomList.add(friendApartment);
+        roomList.add(bar);
+        roomList.add(groceryStore);
+        roomList.add(groceryCheckoutLine);
+        roomList.add(groceryStockRoom);
+        roomList.add(carDealer);
+        roomList.add(collegeCampus);
+        roomList.add(collegeLibrary);
+        roomList.add(collegeClassroom);
+        roomList.add(inTheMatrix);
+        roomList.add(beltway);
+        roomList.add(postOffice);
+        roomList.add(cityHall);
+        roomList.add(policeStation);
+        roomList.add(jailCell);
+        roomList.add(park);
+        roomList.add(airport);
+        roomList.add(bank);
+        roomList.add(bankRestroom);
+        roomList.add(bankVault);
+        roomList.add(restaurant);
+        roomList.add(petStore);
+        roomList.add(bus);
         //set exits - note that jailCell and inTheMatrix are not hooked up yet, as the only way to get into them will be event-driven
         //city center exits
         cityCenter.setExit("north", northSecond);
@@ -333,6 +334,8 @@ public class Game
         else {
             player.setPreviousRoom(currentRoom);
             currentRoom = nextRoom;
+            //advance timer
+            timer.advanceTime();
             //System.out.println(currentRoom.getLongDescription());
             printInfo();
         }
@@ -367,6 +370,7 @@ public class Game
         else {
             player.setPreviousRoom(currentRoom);
             currentRoom = nextRoom;
+            timer.advanceTime();
             //hooks up the bus
             currentRoom.refreshExit();
             //System.out.println(currentRoom.getLongDescription());
