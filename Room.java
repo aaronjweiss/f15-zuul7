@@ -20,8 +20,8 @@ public class Room
 {
     private String description;
     private HashMap<String, Room> exits;        // stores exits of this room.
-    private HashMap<String, Item> items;
-
+    private HashMap<String, Item> items;        //stores items of this room
+    
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
@@ -34,7 +34,7 @@ public class Room
         exits = new HashMap<String, Room>();
         items = new HashMap<String, Item>();
     }
-
+    
     /**
      * Define an exit from this room.
      * @param direction The direction of the exit.
@@ -44,7 +44,11 @@ public class Room
     {
         exits.put(direction, neighbor);
     }
-
+    
+    public void removeAllExits()
+    {
+        exits.clear();
+    }
     /**
      * @return The short description of the room
      * (the one that was defined in the constructor).
@@ -53,7 +57,15 @@ public class Room
     {
         return description;
     }
-
+    
+    /**
+     * Sets the short description of the room
+     * @param The new description of the room
+     */
+    public void setShortDescription(String newDescription)
+    {
+        this.description = newDescription;
+    }
     /**
      * Return a description of the room in the form:
      *     You are in the kitchen.
@@ -90,7 +102,7 @@ public class Room
     {
         return exits.get(direction);
     }
-    
+   
     /**
      * Adds an item into the room.
      * 
@@ -124,6 +136,14 @@ public class Room
         Item temp = items.get(description);
         items.remove(description);
         return temp;
+    }
+    
+    /**
+     * Does nothing unless this is a bus
+     */
+    public void refreshExit()
+    {
+        //Do nothing
     }
     
     /**

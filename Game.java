@@ -15,6 +15,7 @@
  * @version 2011.08.09
  */
 
+import java.util.*;
 public class Game 
 {
     private Parser parser;
@@ -36,11 +37,12 @@ public class Game
      */
     private void createRooms()
     {
+        ArrayList<Room> roomList = new ArrayList<Room>();
+        
         Room cityCenter, northSecond, southSecond, eastMain, westMain, apartmentBuilding, playerApartment, friendApartment,
         bar, groceryStore, groceryCheckoutLine, groceryStockRoom, carDealer, collegeCampus, collegeLibrary, collegeClassroom,
         inTheMatrix, beltway, postOffice, cityHall, policeStation, jailCell, park, airport,
-        bank, bankRestroom, bankVault, restaurant, petStore;
-        
+        bank, bankRestroom, bankVault, restaurant, petStore, bus;
 
         Item key, newspaper, wallet, someItem;
         
@@ -74,14 +76,47 @@ public class Game
         postOffice = new Room("at the Post Office");
         cityHall = new Room("at City Hall");
         policeStation = new Room("at the Police Station");
-        jailCell = new Room("in a jail cell");
+        jailCell = new Room("in a jail cell. Good thing you could post bail!");
         park = new Room("at the park");
         airport = new Room("at the airport");
         bank = new Room("at the bank");
         bankRestroom = new Room("in the bank restroom");
-        bankVault = new Room("in the bank vault");
+        bankVault = new Room("in the bank vault. Sirens blare outside - you must have tripped an alarm!");
         restaurant = new Room("at Charles Edgar Cheddar Fine Dining");
         petStore = new Room("at the pet store");
+        bus = new Bus("on the bus", roomList);
+        
+        //add rooms to roomList
+        roomList.add(cityCenter);	
+		roomList.add(northSecond);
+		roomList.add(southSecond);
+		roomList.add(eastMain);
+		roomList.add(westMain);
+		roomList.add(apartmentBuilding);
+		roomList.add(playerApartment);
+		roomList.add(friendApartment);
+		roomList.add(bar);
+		roomList.add(groceryStore);
+		roomList.add(groceryCheckoutLine);
+		roomList.add(groceryStockRoom);
+		roomList.add(carDealer);
+		roomList.add(collegeCampus);
+		roomList.add(collegeLibrary);
+		roomList.add(collegeClassroom);
+		roomList.add(inTheMatrix);
+		roomList.add(beltway);
+		roomList.add(postOffice);
+		roomList.add(cityHall);
+		roomList.add(policeStation);
+		roomList.add(jailCell);
+		roomList.add(park);
+		roomList.add(airport);
+		roomList.add(bank);
+		roomList.add(bankRestroom);
+		roomList.add(bankVault);
+		roomList.add(restaurant);
+		roomList.add(petStore);
+		roomList.add(bus);
         //set exits - note that jailCell and inTheMatrix are not hooked up yet, as the only way to get into them will be event-driven
         //city center exits
         cityCenter.setExit("north", northSecond);
@@ -95,21 +130,26 @@ public class Game
         westMain.setExit("east", cityCenter);
         westMain.setExit("bar", bar);
         westMain.setExit("grocery", groceryStore);
+        westMain.setExit("beltway", beltway);
         //south second exits
         southSecond.setExit("carlot", carDealer);
         southSecond.setExit("north", cityCenter);
         southSecond.setExit("college", collegeCampus);
+        southSecond.setExit("bus", bus);
+        southSecond.setExit("beltway", beltway);
         //east main exits
         eastMain.setExit("west", cityCenter);
         eastMain.setExit("postoffice", postOffice);
         eastMain.setExit("cityhall", cityHall);
         eastMain.setExit("policestation", policeStation);
         eastMain.setExit("bank", bank);
+        eastMain.setExit("beltway", beltway);
         //north second exits
         northSecond.setExit("bank", bank);
         northSecond.setExit("south", cityCenter);
         northSecond.setExit("petstore", petStore);
         northSecond.setExit("restaurant", restaurant);
+        northSecond.setExit("beltway", beltway);
         //beltway exits
         beltway.setExit("westmain", westMain);
         beltway.setExit("northsecond", northSecond);
@@ -157,7 +197,7 @@ public class Game
         //police station exits
         policeStation.setExit("street", eastMain);
         //park exits
-        park.setExit("beltway", beltway);
+        park.setExit("bus", beltway);
         //airport exits
         airport.setExit("beltway", beltway);
         //bank exits
@@ -169,11 +209,14 @@ public class Game
         //bank restroom exit
         bankRestroom.setExit("lobby", bank);
         //bank vault exit
-        bankVault.setExit("lobby",bank);
+        bankVault.setExit("jail", jailCell);
         //pet store exits
         petStore.setExit("street", northSecond);
         //restaurant exits
         restaurant.setExit("street", northSecond);
+        //jail cell exits
+        jailCell.setExit("station", policeStation);
+        bus.setExit("ride", bus);
         currentRoom = cityCenter;  // start game at city center
     }
 
@@ -201,7 +244,7 @@ public class Game
     {
         System.out.println();
         System.out.println("Welcome to The World of Zuul-7!");
-        System.out.println("The World of Zuul-7 is a new, mildly-interesting adventure game.");
+        System.out.println("The World of Zuul-7 is a new, not terribly interesting adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
         //System.out.println(currentRoom.getLongDescription());
@@ -324,6 +367,8 @@ public class Game
         else {
             player.setPreviousRoom(currentRoom);
             currentRoom = nextRoom;
+            //hooks up the bus
+            currentRoom.refreshExit();
             //System.out.println(currentRoom.getLongDescription());
             printInfo();
         }
