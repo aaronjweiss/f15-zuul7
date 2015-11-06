@@ -31,7 +31,7 @@ add another command, ie eat with a simple text response (p 216) (done)
 6.23, 6.26 (p 222) - implement the back command (either back one or back many (done)
 6.28-6.33  (p 226) -add a Player that can carry one or more objects according to the options presented (done)
 Add time Limit
-Implement trapdoor
+Implement trapdoor (done)
 Add a beamer - a beamer is a device that can be charged and fired. When uoi fire the beamer, it transports you immediately back to the room it was charged in.
 Add locked doors to your game. The player needs to find (or otherwise obtain) a key to open a door.
 Add a transporter room. Whenever the player enters this room, he/she is randomly transported into one of the other rooms. (done)
