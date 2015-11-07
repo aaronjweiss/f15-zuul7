@@ -69,7 +69,7 @@ public class Player
      * Removes an item from the players inventory and returns it if exists.
      * 
      * @param description the shorthand description of the item
-     * @return item the item being removed.
+     * @return the item being removed.
      */
     public Item removeItem(String description) 
     {
@@ -90,6 +90,20 @@ public class Player
         for(String item : keys) {
             returnString += " " + item;
         }
+        return returnString;
+    }
+    
+    /**
+     * Prints an item's description and weight.
+     * 
+     * @param item string name of item
+     * @return String of description and weight
+     */
+    public String getItemDetails(String itemName) 
+    {        
+        Item item = inventory.get(itemName);
+        String returnString = "Item: " + itemName + 
+        "\nDescription: " + item.getDescription() + "\nWeight: " + item.getWeight();
         return returnString;
     }
 }

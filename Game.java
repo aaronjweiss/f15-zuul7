@@ -22,15 +22,26 @@ public class Game
     private Room currentRoom;
     private Player player;
     private Timer timer;
+    private Scanner keyboard;
+    private boolean matrix;
     /**
      * Create the game and initialise its internal map.
      */
-    public Game() 
+    
+    public Game(boolean matrix) 
     {
+        this.matrix = matrix;
         createRooms();
         parser = new Parser();
         player = new Player();
         timer = new Timer(1);
+        keyboard = new Scanner(System.in);
+        
+        play();
+    }
+    
+    public static void main(String[] args) {
+        new Game(false);
     }
 
     /**
@@ -42,7 +53,7 @@ public class Game
         
         Room cityCenter, northSecond, southSecond, eastMain, westMain, apartmentBuilding, playerApartment, friendApartment,
         bar, groceryStore, groceryCheckoutLine, groceryStockRoom, carDealer, collegeCampus, collegeLibrary, collegeClassroom,
-        inTheMatrix, beltway, postOffice, cityHall, policeStation, jailCell, park, airport,
+        collegeComputer, inTheMatrix, beltway, postOffice, cityHall, policeStation, jailCell, park, airport,
         bank, bankRestroom, bankVault, restaurant, petStore, bus;
 
         Item key, newspaper, wallet, someItem;
@@ -72,7 +83,8 @@ public class Game
         collegeCampus = new Room ("at Zuul State University");
         collegeLibrary = new Room("at Zuul State University's Library");
         collegeClassroom = new Room("in a classroom at Zuul State U");
-        inTheMatrix = new Room("in a room surrounded by screens, all of which show you.");
+        collegeComputer = new Room("sitting at a Computer");
+        inTheMatrix = new Room("in a room surrounded by screens, all of which show you");
         beltway = new Room("On the I-990 Beltway");
         postOffice = new Room("at the Zuul County Post Office");
         cityHall = new Room("at Zuul-7 City Hall");
@@ -191,6 +203,14 @@ public class Game
         collegeLibrary.setExit("campus", collegeCampus);
         //college classroom exits
         collegeClassroom.setExit("campus", collegeCampus);
+        if(matrix == false)
+            collegeClassroom.setExit("computer", collegeComputer);
+        else {
+            collegeClassroom.setExit("matrix", inTheMatrix);
+            inTheMatrix.setExit("classroom", collegeClassroom);
+        }
+        //college computer exit
+        collegeComputer.setExit("classroom", collegeClassroom);
         //post office exits
         postOffice.setExit("street", eastMain);
         //city hall exits
@@ -247,8 +267,10 @@ public class Game
         System.out.println("Welcome to The World of Zuul-7!");
         System.out.println("The World of Zuul-7 is a new, not terribly interesting adventure game.");
         System.out.println("Type 'help' if you need help.");
+        if(matrix)
+            System.out.println("This all seems farmiliar...");
         System.out.println();
-        //System.out.println(currentRoom.getLongDescription());
+        
         printInfo();
     }
 
@@ -280,8 +302,16 @@ public class Game
                 goBack();
                 break;
                 
+            case USE:
+                useItem(command);
+                break;
+                
             case TAKE:
                 takeItem(command);
+                break;
+                
+            case EXAMINE:
+                examineItem(command);
                 break;
                 
             case DROP:
@@ -316,6 +346,8 @@ public class Game
     private void printInfo() 
     {
         System.out.println();
+        if(matrix)
+            System.out.println("You are currently playing a game on Zuul-7's classroom's computer. It reads: ");
         System.out.println(currentRoom.getLongDescription());
         System.out.println(player.getItemList());
     }
@@ -371,10 +403,19 @@ public class Game
             player.setPreviousRoom(currentRoom);
             currentRoom = nextRoom;
             timer.advanceTime();
+            
             //hooks up the bus
             currentRoom.refreshExit();
-            //System.out.println(currentRoom.getLongDescription());
+            //recursion anyone?
+            if(currentRoom.getShortDescription().equals("sitting at a Computer") && (matrix == false)) {
+                System.out.println("You sit down at the computer. Do you want to play a game? (Y/N)");
+                String answer = keyboard.nextLine();
+                if(answer.equalsIgnoreCase("Y"))
+                    new Game(true);
+            }
+            
             printInfo();
+                 
         }
     }
     
@@ -432,6 +473,62 @@ public class Game
             System.out.println("There is no such item to drop.");
         }
         
+    }
+    
+    /** 
+     * Try to use an item. Returns errors if no/invalid item used. 
+     */
+    private void useItem(Command command) 
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know what item to take...
+            System.out.println("Use what?");
+            return;
+        }
+
+        String itemToUse = command.getSecondWord();
+
+        if(player.hasItem(itemToUse)) {      
+            System.out.println("You use the " + itemToUse + "...");
+            
+            if(itemToUse.equalsIgnoreCase("Key")) {
+                //Do whatever. Maybe check if currentRoom is vault and if so, send to jail?
+            }
+            else if(itemToUse.equalsIgnoreCase("Beamer")) { //Add else-ifs for any new item. Kinda ugly?
+                
+            }
+            else
+                System.out.println("...nothing interesting happens.");
+            
+            printInfo();
+        }
+        else {
+            System.out.println("There is no such item to use.");
+        }  
+    }
+    
+    /** 
+     * Try to examine an item. Returns errors if no/invalid item used. 
+     */
+    private void examineItem(Command command) 
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know what item to take...
+            System.out.println("Examine what?");
+            return;
+        }
+
+        String itemToExamine = command.getSecondWord();
+
+        if(player.hasItem(itemToExamine)) {      
+            System.out.println("You examine the " + itemToExamine + ".");
+            String examine = player.getItemDetails(itemToExamine);
+            System.out.println(examine);
+            printInfo();
+        }
+        else {
+            System.out.println("There is no such item to examine.");
+        }  
     }
 
     /** 

@@ -29,6 +29,8 @@ public class CommandWords
         validCommands.put("take", CommandWord.TAKE);
         validCommands.put("back", CommandWord.BACK);
         validCommands.put("drop", CommandWord.DROP);
+        validCommands.put("use", CommandWord.USE);
+        validCommands.put("examine", CommandWord.EXAMINE);
     }
 
     /**
