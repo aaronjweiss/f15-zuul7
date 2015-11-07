@@ -238,6 +238,9 @@ public class Game
         //jail cell exits
         jailCell.setExit("station", policeStation);
         bus.setExit("ride", bus);
+        
+        bankVault.lockRoom();  // locks the bank vault
+        
         currentRoom = cityCenter;  // start game at city center
     }
 
@@ -402,6 +405,9 @@ public class Game
         if (nextRoom == null) {
             System.out.println("That is not a direction you can go.");
         }
+        else if(nextRoom.isLocked()) {
+            System.out.println("That room is locked. Maybe you need to find a key?");
+        }
         else {
             player.setPreviousRoom(currentRoom);
             currentRoom = nextRoom;
@@ -494,8 +500,15 @@ public class Game
         if(player.hasItem(itemToUse)) {      
             System.out.println("You use the " + itemToUse + "...");
             
-            if(itemToUse.equalsIgnoreCase("Key")) {
-                //Do whatever. Maybe check if currentRoom is vault and if so, send to jail?
+            if(itemToUse.equalsIgnoreCase("Key") && currentRoom.getShortDescription().equals("at the bank")) {
+                if(currentRoom.getExit("vault").isLocked()) {
+                    System.out.println("You unlocked the vault. This seems risky...");
+                    currentRoom.getExit("vault").unlockRoom();
+                    player.removeItem(itemToUse);
+                }
+                else {
+                    System.out.println("You already unlocked the vault");
+                }
             }
             else if(itemToUse.equalsIgnoreCase("Beamer")) { //Add else-ifs for any new item. Kinda ugly?
                 

@@ -21,6 +21,7 @@ public class Room
     private String description;
     private HashMap<String, Room> exits;        // stores exits of this room.
     private HashMap<String, Item> items;        //stores items of this room
+    private boolean locked;
     
     /**
      * Create a room described "description". Initially, it has
@@ -159,6 +160,32 @@ public class Room
             returnString += " " + item;
         }
         return returnString;
+    }
+    
+    /**
+     * Determines if the room is locked
+     * 
+     * @return boolean  Returns true if the room is locked, false otherwise
+     */
+    public boolean isLocked()
+    {
+        return locked;
+    }
+    
+    /**
+     * Unlocks a locked room
+     */
+    public void unlockRoom()
+    {
+        locked = false;
+    }
+    
+    /**
+     * Locks a room
+     */
+    public void lockRoom()
+    {
+        locked = true;
     }
 }
 
