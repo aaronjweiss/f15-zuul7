@@ -20,6 +20,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
+    private Room beamerRoom;
     private Player player;
     private Timer timer;
     private Scanner keyboard;
@@ -56,17 +57,18 @@ public class Game
         collegeComputer, inTheMatrix, beltway, postOffice, cityHall, policeStation, jailCell, park, airport,
         bank, bankRestroom, bankVault, restaurant, petStore, bus;
 
-        Item key, newspaper, wallet, someItem;
+        Item key, newspaper, wallet, milk, bread, beamer;
         
         key = new Item("A key. Wonder what it unlocks?",1);
         newspaper = new Item("A newspaper.",1);
         wallet = new Item("A wallet.",2);
-        someItem = new Item("asdf",1);
+        milk = new Item("A gallon of milk.",2);
+        bread = new Item("A loaf of bread.",1);
+        beamer = new Item("A matter transportation device. Does it work on humans?",4);
 
         
         // create the rooms
         cityCenter = new Room("in the city center, at the intersection of Main and Second");
-        cityCenter.addItem("key",key);
         cityCenter.addItem("newspaper",newspaper);
         northSecond = new Room("on North Second Avenue");
         southSecond = new Room("on South Second Avenue");
@@ -74,9 +76,12 @@ public class Game
         westMain = new Room("on West Main Street");
         apartmentBuilding = new Room ("in your apartment building");
         playerApartment = new Room ("in your apartment");
+        playerApartment.addItem("beamer",beamer);
         friendApartment = new Room("in your friend's apartment");
         bar = new Room("at Cody's Bar and Grille");
         groceryStore = new Room ("at Melvin's Grocery");
+        groceryStore.addItem("milk",milk);
+        groceryStore.addItem("bread",bread);
         groceryCheckoutLine = new Room ("at the checkout line in Melvin's grocery");
         groceryStockRoom = new Room ("in the stock room at Melvin's grocery");
         carDealer = new Room ("at Crazy Chaz's Used Autos");
@@ -91,6 +96,7 @@ public class Game
         policeStation = new Room("at the Zuul-7 Police Station");
         jailCell = new Room("in a jail cell. Good thing you could post bail!");
         park = new Room("at the park");
+        park.addItem("wallet",wallet);
         airport = new Room("at the Zuul-7 International Airport");
         bank = new Room("at the bank");
         bankRestroom = new Room("in the bank restroom");
@@ -510,8 +516,16 @@ public class Game
                     System.out.println("You already unlocked the vault");
                 }
             }
-            else if(itemToUse.equalsIgnoreCase("Beamer")) { //Add else-ifs for any new item. Kinda ugly?
-                
+            else if(itemToUse.equalsIgnoreCase("Beamer")) { 
+                if(beamerRoom == null) {
+                    System.out.println("Beamer charged. Use it again to be brought back to this room.");
+                    beamerRoom = currentRoom;
+                }
+                else {
+                    System.out.println("Beamer fired. You have been teleported!");
+                    currentRoom = beamerRoom;
+                    beamerRoom = null;
+                }
             }
             else
                 System.out.println("...nothing interesting happens.");
