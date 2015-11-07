@@ -287,6 +287,10 @@ public class Game
             case DROP:
                 dropItem(command);
                 break;
+                
+            case LOOK:
+                look();
+                break;
 
             case QUIT:
                 wantToQuit = quit(command);
@@ -316,7 +320,7 @@ public class Game
     private void printInfo() 
     {
         System.out.println();
-        System.out.println(currentRoom.getLongDescription());
+        System.out.println("You are " + currentRoom.getShortDescription());
         System.out.println(player.getItemList());
     }
     
@@ -336,7 +340,6 @@ public class Game
             currentRoom = nextRoom;
             //advance timer
             timer.advanceTime();
-            //System.out.println(currentRoom.getLongDescription());
             printInfo();
         }
     }
@@ -373,7 +376,6 @@ public class Game
             timer.advanceTime();
             //hooks up the bus
             currentRoom.refreshExit();
-            //System.out.println(currentRoom.getLongDescription());
             printInfo();
         }
     }
@@ -434,6 +436,16 @@ public class Game
         
     }
 
+    /**
+     * Prints the long description of a room, including exits, items, and NPCs.
+     * Also prints the player's inventory.
+     */
+    private void look()
+    {
+        System.out.println(currentRoom.getLongDescription());
+        System.out.println(player.getItemList());
+    }
+    
     /** 
      * "Quit" was entered. Check the rest of the command to see
      * whether we really quit the game.

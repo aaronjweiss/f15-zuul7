@@ -35,6 +35,5 @@ Implement trapdoor (done)
 Add a beamer - a beamer is a device that can be charged and fired. When uoi fire the beamer, it transports you immediately back to the room it was charged in.
 Add locked doors to your game. The player needs to find (or otherwise obtain) a key to open a door.
 Add a transporter room. Whenever the player enters this room, he/she is randomly transported into one of the other rooms. (done)
-In the processComand method in Game, there is a switch statement (or a sequence of if statements) to dispatch commands when a command word is recognized. This is not a very nice design, because every time we add a command, we have to add a case here. Can you improve this design? Design the classes so the handling of commands is more modular and new commands can be added more easily. Implement it. Test it.
 Add characters to the game. Characters are similar to items, but they can talk. They speak some text when you first meet them, and they may give you some help if you give them the right item.
 Add moving characters. These are like other characters, but every time the player types a command, these characters can move into an adjoining room.
