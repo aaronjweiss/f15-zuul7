@@ -30,6 +30,8 @@ public class CommandWords
         validCommands.put("back", CommandWord.BACK);
         validCommands.put("drop", CommandWord.DROP);
         validCommands.put("look", CommandWord.LOOK);
+        validCommands.put("use", CommandWord.USE);
+        validCommands.put("examine", CommandWord.EXAMINE);
     }
 
     /**
