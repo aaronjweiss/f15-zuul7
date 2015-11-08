@@ -32,6 +32,7 @@ public class CommandWords
         validCommands.put("look", CommandWord.LOOK);
         validCommands.put("use", CommandWord.USE);
         validCommands.put("examine", CommandWord.EXAMINE);
+        validCommands.put("talk", CommandWord.TALK);
     }
 
     /**

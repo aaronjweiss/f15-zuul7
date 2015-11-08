@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=name\ greeting
+comment0.target=NPC(java.lang.String,\ java.lang.String)
+comment0.text=\r\n\ Constructor\ for\ NPCs\ with\ only\ a\ greeting\ and\ a\ name\r\n\ \r\n\ @param\ name\ \ The\ name\ of\ the\ character\r\n\ @param\ greeting\ \ The\ greeting\ to\ be\ delivered\ to\ the\ player\ upon\ interaction\r\n
+comment1.params=name\ greeting\ item
+comment1.target=NPC(java.lang.String,\ java.lang.String,\ Item)
+comment1.text=\r\n\ Constructor\ for\ NPCs\ with\ a\ greeting,\ a\ name,\ and\ an\ item\r\n\ \r\n\ @param\ name\ \ The\ name\ of\ the\ character\r\n\ @param\ greeting\ \ The\ greeting\ to\ be\ delivered\ to\ the\ player\ upon\ interaction\r\n\ @param\ item\ \ An\ item\ that\ the\ NPC\ can\ give\ to\ the\ player\r\n
+comment2.params=
+comment2.target=java.lang.String\ getGreeting()
+comment2.text=\r\n\ Returns\ the\ NPC's\ greeting\r\n\ \r\n\ @return\ The\ NPC's\ greeting\r\n
+comment3.params=
+comment3.target=java.lang.String\ getName()
+comment3.text=\r\n\ Returns\ the\ NPC's\ name\r\n\ \r\n\ @return\ The\ NPC's\ name\r\n
+numComments=4

@@ -65,11 +65,20 @@ public class Game
         milk = new Item("A gallon of milk.",2);
         bread = new Item("A loaf of bread.",1);
         beamer = new Item("A matter transportation device. Does it work on humans?",4);
+        
+        NPC john, jane, smith;
+        
+        john = new NPC("John", "This is John's test");
+        jane = new NPC("Jane", "This is Jane's test");
+        smith = new NPC("Smith", "This is Smith's test", key);
 
         
         // create the rooms
         cityCenter = new Room("in the city center, at the intersection of Main and Second");
         cityCenter.addItem("newspaper",newspaper);
+        cityCenter.addNPC("John", john);
+        cityCenter.addNPC("Jane", jane);
+        cityCenter.addNPC("Smith", smith);
         northSecond = new Room("on North Second Avenue");
         southSecond = new Room("on South Second Avenue");
         eastMain = new Room ("on East Main Street");
@@ -330,6 +339,10 @@ public class Game
             case LOOK:
                 look();
                 break;
+                
+            case TALK:
+                talk(command);
+                break;
 
             case QUIT:
                 wantToQuit = quit(command);
@@ -570,6 +583,27 @@ public class Game
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
         System.out.println(player.getItemList());
+    }
+    
+    /**
+     * Talks to the specified character in the current room
+     */
+    private void talk(Command command) 
+    {
+        if(!command.hasSecondWord()) {
+            System.out.println("Talk to whom?");
+            return;
+        }
+
+        String characterToTalk = command.getSecondWord();
+
+        if(currentRoom.hasNPC(characterToTalk)) {      
+            System.out.println(currentRoom.getGreeting(characterToTalk));  
+            printInfo();
+        }
+        else {
+            System.out.println("There is no such character present in this room.");
+        }
     }
     
     /** 

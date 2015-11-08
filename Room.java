@@ -21,6 +21,7 @@ public class Room
     private String description;
     private HashMap<String, Room> exits;        // stores exits of this room.
     private HashMap<String, Item> items;        //stores items of this room
+    private HashMap<String, NPC> NPCs;          // stores characters of this room
     private boolean locked;
     
     /**
@@ -34,6 +35,7 @@ public class Room
         this.description = description;
         exits = new HashMap<String, Room>();
         items = new HashMap<String, Item>();
+        NPCs = new HashMap<String, NPC>();
     }
     
     /**
@@ -68,6 +70,7 @@ public class Room
     {
         this.description = newDescription;
     }
+    
     /**
      * Return a description of the room in the form:
      *     You are in the kitchen.
@@ -76,7 +79,7 @@ public class Room
      */
     public String getLongDescription()
     {
-        return "You are " + description + ".\n" + getExitString() + "\n" + getItemList();
+        return "You are " + description + ".\n" + getExitString() + "\n" + getItemList() + "\n" + getNPCList();
     }
 
     /**
@@ -141,6 +144,38 @@ public class Room
     }
     
     /**
+     * Adds an NPC to the room
+     * 
+     * @param name  The name of the character to be added
+     * @param character  The character being added
+     */
+    public void addNPC(String name, NPC character)
+    {
+        NPCs.put(name, character);
+    }
+    
+    /**
+     * Checks to see if the named NPC is in the current room
+     * 
+     * @param name  The name of the character to be searched for
+     * @return True if the room contains the desired NPC, false otherwise
+     */
+    public boolean hasNPC(String name)
+    {
+        return NPCs.containsKey(name);
+    }
+    
+    /**
+     * Removes an NPC from the room
+     * 
+     * @param name  The name of the character to be removed
+     */
+    public void removeNPC(String name)
+    {
+        NPCs.remove(name);
+    }
+    
+    /**
      * Does nothing unless this is a bus
      */
     public void refreshExit()
@@ -161,6 +196,34 @@ public class Room
             returnString += " " + item;
         }
         return returnString;
+    }
+    
+    /**
+     * Lists any NPCs that are in the room
+     * 
+     * @return String of any characters in the room
+     */
+    public String getNPCList()
+    {
+        String returnString = "Characters:";
+        Set<String> keys = NPCs.keySet();
+        for(String character : keys) {
+            if(returnString.equals("Characters:")) {
+                returnString += " " + character;
+            }
+            else {
+                returnString += ", " + character;
+            }
+        }
+        return returnString;
+    }
+    
+    /**
+     * Returns the greeting of an NPC in this room
+     */
+    public String getGreeting(String name)
+    {
+        return (NPCs.get(name).getName() + " says: " + NPCs.get(name).getGreeting());
     }
     
     /**
