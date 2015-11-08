@@ -59,18 +59,18 @@ public class Game
 
         Item key, newspaper, wallet, milk, bread, beamer;
         
-        key = new Item("A key. Wonder what it unlocks?",1);
-        newspaper = new Item("A newspaper.",1);
-        wallet = new Item("A wallet.",2);
-        milk = new Item("A gallon of milk.",2);
-        bread = new Item("A loaf of bread.",1);
-        beamer = new Item("A matter transportation device. Does it work on humans?",4);
+        key = new Item("key","A key. Wonder what it unlocks?",1);
+        newspaper = new Item("newspaper","A newspaper.",1);
+        wallet = new Item("wallet","A wallet.",2);
+        milk = new Item("milk","A gallon of milk.",2);
+        bread = new Item("bread","A loaf of bread.",1);
+        beamer = new Item("beamer","A matter transportation device. Does it work on humans?",4);
         
         NPC john, jane, smith;
         
         john = new NPC("John", "This is John's test");
         jane = new NPC("Jane", "This is Jane's test");
-        smith = new NPC("Smith", "This is Smith's test", key);
+        smith = new NPC("Smith", "This is Smith's test", key, "Take this key. Don't ask questions.");
 
         
         // create the rooms
@@ -597,9 +597,19 @@ public class Game
 
         String characterToTalk = command.getSecondWord();
 
-        if(currentRoom.hasNPC(characterToTalk)) {      
-            System.out.println(currentRoom.getGreeting(characterToTalk));  
-            printInfo();
+        if(currentRoom.hasNPC(characterToTalk)) {
+            NPC currentNPC = currentRoom.getNPC(characterToTalk);
+            if(currentNPC.hasItem()) {
+                System.out.println(currentNPC.getName() + " says: " + currentNPC.getItemGreeting());
+                String nameOfItem = currentNPC.getItemName();
+                player.addItem(nameOfItem, currentNPC.transferItem());
+                System.out.println("\nThe " + nameOfItem + " has been added to your inventory");
+                printInfo();
+            }
+            else { 
+                System.out.println(currentNPC.getName() + " says: " + currentNPC.getGreeting());
+                printInfo();
+            }
         }
         else {
             System.out.println("There is no such character present in this room.");

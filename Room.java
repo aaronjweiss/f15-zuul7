@@ -219,11 +219,14 @@ public class Room
     }
     
     /**
-     * Returns the greeting of an NPC in this room
+     * Returns the NPC object associated with the given name
+     * 
+     * @param name  The name of the character
+     * @return The NPC object associated with the name
      */
-    public String getGreeting(String name)
+    public NPC getNPC(String name)
     {
-        return (NPCs.get(name).getName() + " says: " + NPCs.get(name).getGreeting());
+        return NPCs.get(name);
     }
     
     /**
