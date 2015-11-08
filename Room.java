@@ -1,6 +1,7 @@
 import java.util.Set;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Random;
 
 /**
  * Class Room - a room in an adventure game.
@@ -23,6 +24,7 @@ public class Room
     private HashMap<String, Item> items;        //stores items of this room
     private HashMap<String, NPC> NPCs;          // stores characters of this room
     private boolean locked;
+    private Random random;
     
     /**
      * Create a room described "description". Initially, it has
@@ -36,6 +38,7 @@ public class Room
         exits = new HashMap<String, Room>();
         items = new HashMap<String, Item>();
         NPCs = new HashMap<String, NPC>();
+        random = new Random();
     }
     
     /**
@@ -174,7 +177,7 @@ public class Room
     {
         NPCs.remove(name);
     }
-    
+   
     /**
      * Does nothing unless this is a bus
      */
@@ -227,6 +230,16 @@ public class Room
     public NPC getNPC(String name)
     {
         return NPCs.get(name);
+    }
+    
+    public void moveNPCs()
+    {
+        String[] adjoiningRooms = exits.keySet().toArray(new String[exits.size()]);
+        Set<String> keys = NPCs.keySet();
+        for(String character : keys) {
+            getExit(adjoiningRooms[random.nextInt(adjoiningRooms.length)]).addNPC(character, NPCs.get(character));
+        }
+        NPCs.clear();
     }
     
     /**

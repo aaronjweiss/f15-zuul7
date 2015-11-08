@@ -25,6 +25,7 @@ public class Game
     private Timer timer;
     private Scanner keyboard;
     private boolean matrix;
+    private ArrayList<Room> roomList;
     /**
      * Create the game and initialise its internal map.
      */
@@ -46,11 +47,11 @@ public class Game
     }
 
     /**
-     * Create all the rooms and link their exits together.
+     * Create all the rooms and link their exits together. Also populates the rooms with items and NPCs.
      */
     private void createRooms()
     {
-        ArrayList<Room> roomList = new ArrayList<Room>();
+        roomList = new ArrayList<Room>();
         
         Room cityCenter, northSecond, southSecond, eastMain, westMain, apartmentBuilding, playerApartment, friendApartment,
         bar, groceryStore, groceryCheckoutLine, groceryStockRoom, carDealer, collegeCampus, collegeLibrary, collegeClassroom,
@@ -68,22 +69,21 @@ public class Game
         
         NPC john, jane, smith;
         
-        john = new NPC("John", "This is John's test");
-        jane = new NPC("Jane", "This is Jane's test");
-        smith = new NPC("Smith", "This is Smith's test", key, "Take this key. Don't ask questions.");
+        john = new NPC("John", "I AM ERROR ... (a timely reference to be sure)");
+        jane = new NPC("Jane", "I heard that Smith found something interesting.");
+        smith = new NPC("Smith", "I wonder if the bank is still open...", key, "Take this key. Don't ask questions.");
 
         
-        // create the rooms
+        // create the rooms, items, and NPCs
         cityCenter = new Room("in the city center, at the intersection of Main and Second");
         cityCenter.addItem("newspaper",newspaper);
-        cityCenter.addNPC("John", john);
         cityCenter.addNPC("Jane", jane);
-        cityCenter.addNPC("Smith", smith);
         northSecond = new Room("on North Second Avenue");
         southSecond = new Room("on South Second Avenue");
         eastMain = new Room ("on East Main Street");
         westMain = new Room("on West Main Street");
         apartmentBuilding = new Room ("in your apartment building");
+        apartmentBuilding.addNPC("John", john);
         playerApartment = new Room ("in your apartment");
         playerApartment.addItem("beamer",beamer);
         friendApartment = new Room("in your friend's apartment");
@@ -108,6 +108,7 @@ public class Game
         park.addItem("wallet",wallet);
         airport = new Room("at the Zuul-7 International Airport");
         bank = new Room("at the bank");
+        bank.addNPC("Smith", smith);
         bankRestroom = new Room("in the bank restroom");
         bankVault = new Room("in the bank vault. Sirens blare outside - you must have tripped an alarm!");
         restaurant = new Room("at Charles Edgar Cheddar Fine Dining");
@@ -121,27 +122,27 @@ public class Game
         roomList.add(eastMain);
         roomList.add(westMain);
         roomList.add(apartmentBuilding);
-        //roomList.add(playerApartment);
-        //roomList.add(friendApartment);
+        roomList.add(playerApartment);
+        roomList.add(friendApartment);
         roomList.add(bar);
         roomList.add(groceryStore);
-        //roomList.add(groceryCheckoutLine);
-        //roomList.add(groceryStockRoom);
+        roomList.add(groceryCheckoutLine);
+        roomList.add(groceryStockRoom);
         roomList.add(carDealer);
         roomList.add(collegeCampus);
-        //roomList.add(collegeLibrary);
-        //roomList.add(collegeClassroom);
-        //roomList.add(inTheMatrix);
-        //roomList.add(beltway);
+        roomList.add(collegeLibrary);
+        roomList.add(collegeClassroom);
+        roomList.add(inTheMatrix);
+        roomList.add(beltway);
         roomList.add(postOffice);
         roomList.add(cityHall);
         roomList.add(policeStation);
-        //roomList.add(jailCell);
+        roomList.add(jailCell);
         roomList.add(park);
         roomList.add(airport);
         roomList.add(bank);
-        //roomList.add(bankRestroom);
-        //roomList.add(bankVault);
+        roomList.add(bankRestroom);
+        roomList.add(bankVault);
         roomList.add(restaurant);
         roomList.add(petStore);
         roomList.add(bus);
@@ -395,6 +396,11 @@ public class Game
             currentRoom = nextRoom;
             //advance timer
             timer.advanceTime();
+            //moves NPCs to adjoining room after each player movement
+            for(Room room : roomList)
+            {
+                room.moveNPCs();
+            }
             printInfo();
         }
     }
@@ -446,7 +452,12 @@ public class Game
             player.setPreviousRoom(currentRoom);
             currentRoom = nextRoom;
             timer.advanceTime();
-                
+            
+            //moves NPCs to adjoining room after each player movement
+            for(Room room : roomList)
+            {
+                room.moveNPCs();
+            }
             
             //hooks up the bus
             currentRoom.refreshExit();
