@@ -145,7 +145,7 @@ public class Game
         roomList.add(restaurant);
         roomList.add(petStore);
         roomList.add(bus);
-        //set exits - note that jailCell and inTheMatrix are not hooked up yet, as the only way to get into them will be event-driven
+        //set exits
         //city center exits
         cityCenter.setExit("north", northSecond);
         cityCenter.setExit("south", southSecond);
@@ -255,6 +255,7 @@ public class Game
         bus.setExit("ride", bus);
         
         bankVault.lockRoom();  // locks the bank vault
+        bank.lockRoom();  // locks the bank itself - can only be entered within a certain number of movements (or through teleportation)
         
         currentRoom = cityCenter;  // start game at city center
     }
@@ -425,12 +426,27 @@ public class Game
             System.out.println("That is not a direction you can go.");
         }
         else if(nextRoom.isLocked()) {
-            System.out.println("That room is locked. Maybe you need to find a key?");
+            if(nextRoom.getShortDescription().equals("at the bank")) {
+                if(timer.getTime()>20) {
+                    System.out.println("The bank is closed for the day. You took too long!");
+                }
+                else {
+                    player.setPreviousRoom(currentRoom);
+                    currentRoom = nextRoom;
+                    timer.advanceTime();
+                    currentRoom.refreshExit();
+                    printInfo();
+                }
+            }
+            else {
+                System.out.println("That room is locked. Maybe you need to find a key?");
+            }
         }
         else {
             player.setPreviousRoom(currentRoom);
             currentRoom = nextRoom;
             timer.advanceTime();
+                
             
             //hooks up the bus
             currentRoom.refreshExit();
