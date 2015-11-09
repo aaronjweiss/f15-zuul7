@@ -1,8 +1,8 @@
 /**
  * The bus is a room with a randomized exit
  * 
- * @author Colin P. Goss 
- * @version 0.0.2
+ * @author  Michael Kölling, David J. Barnes, Randolph Mitchell, Aaron Weiss, Colin P. Goss
+ * @version 2015.11.08
  */
 
 import java.util.*;

@@ -6,7 +6,7 @@
  * given to the player and a special greeting to go with that item.
  * 
  * @author Randy Mitchell
- * @version 1.0.1
+ * @version 2015.11.08
  */
 public class NPC
 {

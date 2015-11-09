@@ -6,7 +6,7 @@ import java.util.HashMap;
  * Write a description of class Player here.
  * 
  * @author Aaron Weiss
- * @version 1.0.0
+ * @version 2015.11.08
  */
 public class Player
 {

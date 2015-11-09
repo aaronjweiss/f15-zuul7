@@ -13,8 +13,8 @@ import java.util.Random;
  * connected to other rooms via exits.  For each existing exit, the room 
  * stores a reference to the neighboring room.
  * 
- * @author  Michael Kölling and David J. Barnes
- * @version 2011.08.09
+ * @author  Michael Kölling, David J. Barnes, Randolph Mitchell, Aaron Weiss, Colin P. Goss
+ * @version 2015.11.08
  */
 
 public class Room 
@@ -23,8 +23,8 @@ public class Room
     private HashMap<String, Room> exits;        // stores exits of this room.
     private HashMap<String, Item> items;        //stores items of this room
     private HashMap<String, NPC> NPCs;          // stores characters of this room
-    private boolean locked;
-    private Random random;
+    private boolean locked;                     //whether the room is locked
+    private Random random;                      //random object
     
     /**
      * Create a room described "description". Initially, it has
@@ -51,14 +51,18 @@ public class Room
         exits.put(direction, neighbor);
     }
     
+    /**
+     * Removes all exits from a room
+     */
     public void removeAllExits()
     {
         exits.clear();
     }
     
     /**
+     * Returns the short description of the room as was defined in the constructor
      * @return The short description of the room
-     * (the one that was defined in the constructor).
+     * 
      */
     public String getShortDescription()
     {
@@ -232,6 +236,9 @@ public class Room
         return NPCs.get(name);
     }
     
+    /**
+     * Moves NPCs from one room to another
+     */
     public void moveNPCs()
     {
         String[] adjoiningRooms = exits.keySet().toArray(new String[exits.size()]);

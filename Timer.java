@@ -3,7 +3,7 @@
  * This keeps track of in-game time
  * 
  * @author Colin P. Goss
- * @version 0.0.1
+ * @version 2015.11.08
  */
 public class Timer
 {

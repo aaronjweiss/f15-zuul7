@@ -4,7 +4,8 @@
  * 
  * @author Aaron Weiss
  * @author Randy Mitchell
- * @version 1.0.1
+ * @author Colin P. Goss
+ * @version 2015.11.08
  */
 public class Item
 {
@@ -15,6 +16,9 @@ public class Item
 
     /**
      * Constructor for objects of class Item
+     * @param name The name of the item
+     * @param description The description of the item
+     * @param weight the weight of the object
      */
     public Item(String name, String description, int weight)
     {
@@ -27,7 +31,7 @@ public class Item
     /**
      * Returns the weight of the Item
      * 
-     * @return     the weight
+     * @return the weight
      */
     public int getWeight()
     {
@@ -37,7 +41,7 @@ public class Item
     /**
      * Returns a string description of the item
      * 
-     * @return     the description
+     * @return the description
      */
     public String getDescription()
     {

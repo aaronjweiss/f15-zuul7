@@ -11,8 +11,8 @@
  *  rooms, creates the parser and starts the game.  It also evaluates and
  *  executes the commands that the parser returns.
  * 
- * @author  Michael Kölling and David J. Barnes
- * @version 2011.08.09
+ * @author  Michael Kölling, David J. Barnes, Aaron Weiss, Randolph Mitchell, Colin P. Goss
+ * @version 2015.11.8
  */
 
 import java.util.*;
@@ -29,7 +29,6 @@ public class Game
     /**
      * Create the game and initialise its internal map.
      */
-    
     public Game(boolean matrix) 
     {
         this.matrix = matrix;
