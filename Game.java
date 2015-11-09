@@ -387,7 +387,8 @@ public class Game
         // Try to leave current room.
         Room nextRoom = player.getPreviousRoom();
 
-        if (nextRoom == null || currentRoom.getShortDescription().equals("in a jail cell")) { //semi-crude way of checking in jail, needs refactoring
+        if (nextRoom == null || currentRoom.getShortDescription().startsWith("in a jail cell") 
+        || currentRoom.getShortDescription().startsWith("in the bank vault")) { //semi-crude way of checking in jail, needs refactoring
             System.out.println("There is nothing to go back to.");
         }
         else {
