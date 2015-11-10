@@ -1,0 +1,26 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Timer()
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ Timer,\ with\ time\ 0\r\n
+comment1.params=startingTime
+comment1.target=Timer(int)
+comment1.text=\r\n\ Constructor\ that\ accepts\ a\ starting\ time\r\n\ @param\ the\ time\ to\ start\r\n
+comment2.params=
+comment2.target=void\ advanceTime()
+comment2.text=\r\n\ Increase\ time\ by\ one\r\n
+comment3.params=amtOfTime
+comment3.target=void\ advanceTime(int)
+comment3.text=\r\n\ Increase\ time\ by\ a\ given\ amount\r\n\ @param\ the\ amount\ of\ time\ to\ increase\ the\ timer\ by\r\n
+comment4.params=
+comment4.target=void\ reverseTime()
+comment4.text=\r\n\ Decrease\ time\ by\ 1\r\n
+comment5.params=amtOfTime
+comment5.target=void\ reverseTime(int)
+comment5.text=\r\n\ Decrease\ time\ by\ a\ given\ amount\r\n\ @param\ amount\ of\ time\ to\ decrease\ the\ timer\ by\r\n
+comment6.params=
+comment6.target=int\ getTime()
+comment6.text=\r\n\ Returns\ the\ amount\ of\ time\ passed\ on\ the\ timer\r\n\ @return\ the\ amount\ of\ time\ passed\ so\ far\r\n
+comment7.params=amtOfTime
+comment7.target=void\ setTime(int)
+comment7.text=\r\n\ Sets\ the\ timer\ to\ a\ specific\ time\r\n\ @param\ The\ amount\ of\ time\ to\ set\ the\ timer\ to\r\n
+numComments=8
