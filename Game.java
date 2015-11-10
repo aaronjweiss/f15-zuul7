@@ -275,6 +275,9 @@ public class Game
             finished = processCommand(command);
         }
         System.out.println("Thank you for playing. Good bye.");
+        if(matrix) {
+            System.out.println("You return to the 'real' world.");
+        }
     }
 
     /**
